@@ -21,16 +21,16 @@ def concurrency_OT():
 
     # Client
     client_local = initial.compose(client_operation)
-    client_transform = client_local.transform(server_operation)
+    client_transform = client_operation.transform(server_operation)
     client_result = client_local.compose(client_transform)
 
     # Server
     server_local = initial.compose(server_operation)
-    server_transform = server_local.transform(client_operation)
+    server_transform = server_operation.transform(client_operation) # Change from retaining 3rd pos to 2nd pos
     server_result = server_local.compose(server_transform)
 
     print(client_result) #ACXD
-    print(server_result) #ACDX (dk why)
+    print(server_result) #ACXD
 
 if __name__ == "__main__":
     seq_OT()

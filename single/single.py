@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 from delta import Delta
 
 # Operation test: Sequential insert/delete

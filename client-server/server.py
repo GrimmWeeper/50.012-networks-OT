@@ -6,6 +6,7 @@ ServerSideSocket = socket.socket()
 host = '127.0.0.1'
 port = 2004
 ThreadCount = 0
+clients= set()
 try:
     ServerSideSocket.bind((host, port))
 except socket.error as e:
@@ -22,11 +23,14 @@ def multi_threaded_client(connection):
         if not data:
             break
         print(response)
-        connection.sendall(str.encode(response))
+        for c in clients:
+            c.sendall(str.encode(response))
+        #connection.sendall(str.encode(response))
     connection.close()
 
 while True:
     Client, address = ServerSideSocket.accept()
+    clients.add(Client)
     print('Connected to: ' + address[0] + ':' + str(address[1]))
     start_new_thread(multi_threaded_client, (Client, ))
     ThreadCount += 1

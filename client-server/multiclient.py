@@ -23,11 +23,40 @@ for i in range(clientNumber):
         print(str(e))
 
     res = socketObject.recv(1024)
-
-    message = "Test message"
-    messageBytes = str.encode(message)
-    socketObject.sendall(messageBytes)
-    data = socketObject.recv(1024)
-    print(data)
+    if(i == 0): 
+        message = "Test message from Client {} \n".format(i+1)
+        f = open("sharedfile.txt","w")
+        f.write(message)
+        f.close()
+        messageBytes = str.encode(message)
+        socketObject.sendall(messageBytes)
+        data = socketObject.recv(1024)
+        print(data)
+    elif(i==1):
+        message = "Test message from other client {} \n".format(i+1)
+        f = open("sharedfile.txt","a")
+        f.write(message)
+        f.close()
+        messageBytes = str.encode(message)
+        socketObject.sendall(messageBytes)
+        data = socketObject.recv(1024)
+        print(data)
+    elif(i == 2): 
+        message = "I've deleted edits made by client 1"
+        open_file = open("sharedfile.txt","r")
+        lines = open_file.readlines()
+        print(lines)
+        open_file.close()
+        del lines[1]
+        f = open("sharedfile.txt","w+")
+        for line in lines:
+            f.write(line)
+        f.write(message)
+        f.close()
+        messageBytes = str.encode(message)
+        socketObject.sendall(messageBytes)
+        data = socketObject.recv(1024)
+        print(data)
+    
 
 socketObject.close()

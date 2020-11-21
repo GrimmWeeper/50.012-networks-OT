@@ -1,0 +1,2 @@
+Test message from Client 1 
+I've deleted edits made by client 1

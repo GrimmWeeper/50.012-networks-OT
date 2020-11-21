@@ -5,12 +5,16 @@ from delta import Delta
 # Operation test: Sequential insert/delete
 def seq_OT():
     a = Delta().insert('ABCDE')
+    print('a')
+    print(a)
     b = Delta().retain(3).insert('Z')
     c = Delta().delete(4)
 
     result_1 = a.compose(b)
     result_2 = result_1.compose(c)
+    print("result 1:")
     print(result_1)
+    print("result 2:")
     print(result_2)
 
 

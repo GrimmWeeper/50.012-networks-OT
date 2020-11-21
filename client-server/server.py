@@ -24,6 +24,7 @@ def multi_threaded_client(connection):
             break
         print(response)
         for c in clients:
+            print(c)
             c.sendall(str.encode(response))
         #connection.sendall(str.encode(response))
     connection.close()

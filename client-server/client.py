@@ -36,7 +36,7 @@ while(True):
 
     message = input("Input message to send to server: ")
 
-    if message.tolower() == "exit":
+    if message.lower() == "exit":
         break
     
     else:

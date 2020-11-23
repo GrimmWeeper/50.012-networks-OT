@@ -30,7 +30,6 @@ while(True):
             messageBytes = str.encode(unsentBuffer[i])
             secondSocket.sendall(messageBytes)
             res = secondSocket.recv(1024)
-            print("Re-sending lost messages to server")
             print(res)
         unsentBuffer = []
 
@@ -55,9 +54,6 @@ while(True):
             while(waitingForServerToComeback):
                 
                 try:
-                    #newPort = random.randint(port+1,8000)
-                    #port_number = newPort
-                    #newPort = socket.socket() #new socket used to try and reconnect
                     secondSocket.connect((host,port))
                     print("Server is back")
                     waitingForServerToComeback = False

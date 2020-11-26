@@ -2,6 +2,10 @@
 import socket
 import random
 
+import sys
+sys.path.append('../')
+from delta import Delta
+
 #Create a socket instance
 socketObject = socket.socket()
 host = '127.0.0.1'
@@ -22,6 +26,7 @@ waitingForServerToComeback = True
 unsentBuffer = []
 secondSocket = socket.socket()
 
+
 # Receive the data
 while(True):
     if len(unsentBuffer) > 0: 
@@ -33,34 +38,57 @@ while(True):
             print(res)
         unsentBuffer = []
 
-    message = input("Input message to send to server: ")
+    # message = input("Input message to send to server: ")
 
-    if message.lower() == "exit":
-        break
+        operation = ''
+    retain = ''
+
+    retain = input("Input position value to retain: ")
+    operation = input("Input Operation (insert/delete): ")
+    value = input("Input value for operation (insert: text | delete: position value): ")
+
+
+    if retain == '':
+        if operation == 'insert':
+            client_delta = Delta().insert(value)
+        
+        elif operation == 'delete':
+            client_delta = Delta().delete(int(value))
     
     else:
-        try:
-            if waitingForServerToComeback == True:
-                messageBytes = str.encode(message)
-                socketObject.sendall(messageBytes)
-            else:
-                messageBytes = str.encode(message)
-                secondSocket.sendall(messageBytes)
+        if operation == 'insert':
+            client_delta = Delta().retain(int(retain)).insert(value)
+        
+        elif operation == 'delete':
+            client_delta = Delta().retain(int(retain)).delete(int(value))        
 
 
-        except ConnectionResetError as e: #server connection shut down
-            unsentBuffer.append(message) #place the unsent message in the buffer
+    print("[Client Operation]:", client_delta)
+
+    message = str(client_delta)
+
+    try:
+        if waitingForServerToComeback == True:
+            messageBytes = str.encode(message)
+            socketObject.sendall(messageBytes)
+        else:
+            messageBytes = str.encode(message)
+            secondSocket.sendall(messageBytes)
+
+
+    except ConnectionResetError as e: #server connection shut down
+        unsentBuffer.append(message) #place the unsent message in the buffer
+        
+        while(waitingForServerToComeback):
             
-            while(waitingForServerToComeback):
+            try:
+                secondSocket.connect((host,port))
+                print("Server is back")
+                waitingForServerToComeback = False
                 
-                try:
-                    secondSocket.connect((host,port))
-                    print("Server is back")
-                    waitingForServerToComeback = False
-                    
 
-                except ConnectionRefusedError:
-                    print(str(e))
+            except ConnectionRefusedError:
+                print(str(e))
 
         
     if waitingForServerToComeback == True:

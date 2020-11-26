@@ -11,8 +11,10 @@ idx_list = []
 
 
 
-for i in range(50):
+for i in range(30):
     start = time.time()
+    time.sleep(0.2)
+    
     for j in range(i+1):
 
         socketObject = socket.socket()

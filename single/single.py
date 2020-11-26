@@ -72,8 +72,8 @@ def seq_OT():
 def concurrency_OT():
 
     initial = Delta().insert('ABCD')
-    client_operation = Delta().retain(3).insert("X")
-    server_operation = Delta().retain(1).delete(1)
+    client_operation = Delta().retain(3).insert("X") # ABCXD -> ACXD
+    server_operation = Delta().retain(1).delete(1) # ACD -> ACDX, ACXD
 
     # Client
     client_local = initial.compose(client_operation)

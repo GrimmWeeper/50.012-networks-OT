@@ -8,13 +8,22 @@ from delta import Delta
 
 import utils
 
+import pickle
+
 ServerSideSocket = socket.socket()
 host = '127.0.0.1'
-port = 2004
+port = 2006
 ThreadCount = 0
 clients= set()
+path_object = 'delta.object'
 
-delta_object = Delta().insert('ABCD')
+if os.path.getsize(path_object) > 0:  
+    with open(path_object, 'rb') as delta_object_file:
+        print(delta_object_file)
+        delta_object = pickle.load(delta_object_file)
+        print(delta_object)
+else:
+    delta_object = Delta().insert('ABCD')
 
 try:
     ServerSideSocket.bind((host, port))
@@ -49,6 +58,9 @@ def multi_threaded_client(connection):
 
         connection.sendall(str.encode(response))
         print('\n')
+        with open(path_object, 'wb') as delta_object_file:
+            pickle.dump(delta_object, delta_object_file)
+    
     connection.close()
 
 while True:

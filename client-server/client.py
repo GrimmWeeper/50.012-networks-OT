@@ -9,7 +9,7 @@ from delta import Delta
 #Create a socket instance
 socketObject = socket.socket()
 host = '127.0.0.1'
-port = 2004
+port = 2006
 
 print("Waiting for connection response")
 #Using the socket connect to a server...in this case localhost

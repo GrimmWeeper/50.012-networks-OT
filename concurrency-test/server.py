@@ -52,12 +52,14 @@ def multi_threaded_client(connection):
                 server_delta = Delta().retain(int(retain)).delete(int(value))   
 
 
+        print("\n")
         print("[Initial State]:", delta_object)
         print("[Server Operation]:", server_delta)
 
         server_local = delta_object.compose(server_delta)
 
         print("[State after Server Operation]:", server_local)
+        print("\n")
         
         data = connection.recv(2048)
         client_message = data.decode('utf-8')
@@ -71,6 +73,7 @@ def multi_threaded_client(connection):
         print("[Transformed Client Operation]:", client_transform)
 
         server_result = server_local.compose(client_transform)
+        print("\n")
         print("[Eventual State in Server]:", server_result)
 
         response = str(server_delta)

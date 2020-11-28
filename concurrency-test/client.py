@@ -53,12 +53,14 @@ while(True):
 
     
 
+    print("\n")
     print("[Initial State]:", delta_object)
     print("[Client Operation]:", client_delta)
 
     client_local = delta_object.compose(client_delta)
 
     print("[State after Client Operation]:", client_local)
+    print("\n")
     
     messageBytes = str.encode(str(client_delta))
     socketObject.sendall(messageBytes)
@@ -71,6 +73,7 @@ while(True):
 
     server_transform = client_delta.transform(server_delta)
     print("[Transformed Server Operation]:", server_transform)
+    print("\n")
 
     client_result = client_local.compose(server_transform)
     print("[Eventual State in Client]:", client_result)

@@ -40,7 +40,13 @@
 ### Authors
 [GrimmWeeper](https://github.com/GrimmWeeper)
 
-[Alice Zhang](https://github.com/alicezhangjy)
+[alicezhangjy](https://github.com/alicezhangjy)
+
+[xmliszt](https://github.com/xmliszt)
+
+[jesterlyn](https://github.com/jesterlyn)
+
+[cinnamon-rolling](https://github.com/cinnamon-rolling)
 
 ### Credits
 [forgeworks/quill-delta-python](https://github.com/forgeworks/quill-delta-python)
